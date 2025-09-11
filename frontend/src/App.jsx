@@ -7,8 +7,8 @@ import { Download, Users, CheckCircle, Clock, Mail, User, BarChart3, Activity, S
 
 // --- API and Socket Configuration ---
 // Paste your Render URL here
-const API_URL = 'https://event-attendance-system-2rpq.onrender.com/api';
-const SOCKET_URL = 'https://event-attendance-system-2rpq.onrender.com';
+const API_URL = '/api';
+const SOCKET_URL = ''; // The frontend will connect to its own host
 const socket = io(SOCKET_URL);
 
 // --- The Main Application Component ---
