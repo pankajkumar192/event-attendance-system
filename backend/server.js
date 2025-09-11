@@ -1,21 +1,37 @@
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const cors = require('cors');
-const app = express();
-const PORT = process.env.PORT || 4000;
+const { sequelize } = require('./models');
+const apiRoutes = require('./routes');
 
-// Use the simple CORS configuration
+const app = express();
+const server = http.createServer(app);
+
+// Use a lenient CORS policy for final testing
 app.use(cors());
 
-// A simple test route for the root
-app.get('/', (req, res) => {
-  res.send('Backend test server is running!');
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  },
 });
 
-// A simple test route for the exact path that is failing
-app.get('/api/participants', (req, res) => {
-  res.json({ message: 'Participants route is working correctly!' });
+app.use(express.json());
+app.set('io', io);
+app.use('/api', apiRoutes);
+
+// Use Render's PORT and the required HOST binding
+const PORT = process.env.PORT || 4000;
+const HOST = '0.0.0.0';
+
+server.listen(PORT, HOST, async () => {
+  console.log(`🚀 Full server running on port ${PORT}`);
+  await sequelize.sync();
+  console.log('✅ Database synchronized!');
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Test server running on port ${PORT}`);
+io.on('connection', (socket) => {
+  console.log('🔌 Admin dashboard connected:', socket.id);
 });

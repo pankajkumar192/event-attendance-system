@@ -12,13 +12,13 @@ router.post('/register', async (req, res) => {
     }
     const regId = `EVT-${uuidv4().slice(0, 8).toUpperCase()}`;
     const participant = await Participant.create({ name, email, regId });
-    res.status(201).json({ participant }); // Wrapped for consistency
+    res.status(201).json({ participant });
   } catch (error) {
     res.status(400).json({ error: 'Email may already be registered.' });
   }
 });
 
-// POST /api/scan  <-- THIS IS THE MISSING/INCORRECT ROUTE
+// POST /api/scan
 router.post('/scan', async (req, res) => {
   try {
     const { regId } = req.body;
@@ -34,10 +34,8 @@ router.post('/scan', async (req, res) => {
 
     const attendance = await Attendance.create({ timestamp: new Date(), ParticipantId: participant.id });
     
-    // Fetch the updated participant with the new attendance record
     const updatedParticipant = await Participant.findByPk(participant.id, { include: Attendance });
 
-    // Notify admin dashboard in real-time
     req.app.get('io').emit('attendanceUpdate', updatedParticipant);
 
     res.json({ message: 'Attendance marked successfully!', participant: updatedParticipant });
@@ -52,7 +50,6 @@ router.get('/participants', async (req, res) => {
     include: Attendance,
     order: [['createdAt', 'DESC']],
   });
-  // Send the data back in the same format as the old API
   res.json({ success: true, participants: participants });
 });
 
