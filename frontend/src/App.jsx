@@ -6,8 +6,9 @@ import { QrScanner } from '@yudiel/react-qr-scanner';
 import { Download, Users, CheckCircle, Clock, Mail, User, BarChart3, Activity, Scan, Wifi, Zap } from 'lucide-react';
 
 // --- API and Socket Configuration ---
-const API_URL = 'http://localhost:4000/api';
-const SOCKET_URL = 'http://localhost:4000';
+// Paste your Render URL here
+const API_URL = 'https://your-backend-name.onrender.com/api';
+const SOCKET_URL = 'https://your-backend-name.onrender.com';
 const socket = io(SOCKET_URL);
 
 // --- The Main Application Component ---
