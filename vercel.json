@@ -1,4 +1,4 @@
-\{
+{
   "version": 2,
   "builds": [
     {
@@ -11,7 +11,7 @@
       "config": {
         "installCommand": "yarn install",
         "buildCommand": "yarn build",
-        "outputDirectory": "dist"
+        "distDir": "dist"
       }
     }
   ],
