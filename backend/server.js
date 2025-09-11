@@ -8,26 +8,24 @@ const apiRoutes = require('./routes');
 const app = express();
 const server = http.createServer(app);
 
-// --- The CORS Fix is Here ---
-// We are now telling the server to allow requests ONLY from your live Vercel site.
-const corsOptions = {
-  origin: "https://event-attendance-system-neon.vercel.app",
-};
+// --- Simplified CORS Configuration for Debugging ---
+app.use(cors()); // Allow all origins for HTTP requests
 
 const io = new Server(server, {
-  cors: corsOptions,
+  cors: {
+    origin: "*", // Allow all origins for Socket.IO
+    methods: ["GET", "POST"]
+  },
 });
-
-app.use(cors(corsOptions));
-// ----------------------------
+// ----------------------------------------------------
 
 app.use(express.json());
 app.set('io', io);
 app.use('/api', apiRoutes);
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000; // Use Render's port
 server.listen(PORT, async () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
   await sequelize.sync();
   console.log('✅ Database synchronized!');
 });
