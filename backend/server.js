@@ -1,35 +1,21 @@
 const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
 const cors = require('cors');
-const { sequelize } = require('./models');
-const apiRoutes = require('./routes');
-
 const app = express();
-const server = http.createServer(app);
+const PORT = process.env.PORT || 4000;
 
-// --- Simplified CORS Configuration for Debugging ---
-app.use(cors()); // Allow all origins for HTTP requests
+// Use the simple CORS configuration
+app.use(cors());
 
-const io = new Server(server, {
-  cors: {
-    origin: "*", // Allow all origins for Socket.IO
-    methods: ["GET", "POST"]
-  },
-});
-// ----------------------------------------------------
-
-app.use(express.json());
-app.set('io', io);
-app.use('/api', apiRoutes);
-
-const PORT = process.env.PORT || 4000; // Use Render's port
-server.listen(PORT, async () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  await sequelize.sync();
-  console.log('✅ Database synchronized!');
+// A simple test route for the root
+app.get('/', (req, res) => {
+  res.send('Backend test server is running!');
 });
 
-io.on('connection', (socket) => {
-  console.log('🔌 Admin dashboard connected:', socket.id);
+// A simple test route for the exact path that is failing
+app.get('/api/participants', (req, res) => {
+  res.json({ message: 'Participants route is working correctly!' });
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Test server running on port ${PORT}`);
 });
