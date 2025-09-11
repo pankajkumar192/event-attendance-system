@@ -8,7 +8,7 @@ const apiRoutes = require('./routes');
 const app = express();
 const server = http.createServer(app);
 
-// Use a lenient CORS policy for final testing
+// Allow all origins for simplicity
 app.use(cors());
 
 const io = new Server(server, {
