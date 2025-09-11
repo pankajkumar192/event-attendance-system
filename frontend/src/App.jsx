@@ -296,4 +296,6 @@ const StatCard = ({ icon: Icon, title, value, color }) => {
     );
 };
 
+const [activeTab, setActiveTab] = useState('register'); // Change this line
+ 
 export default EventManagementSystem;
