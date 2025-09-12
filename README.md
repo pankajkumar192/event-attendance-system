@@ -2,8 +2,8 @@ EventPro - Event Attendance & Registration System
 A full-stack web application for managing event registrations and marking attendance in real-time using QR codes. Built with a Node.js backend and a modern React frontend.
 
 🚀 Live Demo
-Live Application (Frontend): https://event-attendance-system-neon.vercel.app
-
+Live Application (Frontend): 
+https://event-attendance-system-rmku.vercel.app/
 Live API (Backend): https://event-attendance-system-2qxl.onrender.com
 
 ✨ Key Features
